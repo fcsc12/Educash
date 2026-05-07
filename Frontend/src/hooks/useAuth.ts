@@ -7,9 +7,9 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   signInWithRedirect, 
-  GoogleAuthProvider,
-  User
+  GoogleAuthProvider
 } from 'firebase/auth';
+import type { User } from 'firebase/auth';
 
 import { auth } from '../firebase/config';
 

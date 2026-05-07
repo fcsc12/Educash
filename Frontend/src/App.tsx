@@ -8,7 +8,7 @@ import { Movimientos } from './pages/Movimientos';
 import { Analisis } from './pages/Analisis';
 import { Metas } from './pages/Metas';
 import { ProfileView } from './pages/ProfileView';
-import { JSX } from 'react';
+import type { JSX } from 'react';
 
 // componente para proteger rutas privadas (solo accesibles si estas logueado)
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
