@@ -1,18 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreditCard, Mail, User, Lock, ArrowRight } from 'lucide-react';
+import { CreditCard, Mail, User, Lock, ArrowRight, Hash } from 'lucide-react';
 import {
-  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   updateProfile,
   signInWithPopup
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
-import { useAuth } from '../hooks/useAuth'; // Importamos el hook para manejar errores
+import { useAuth } from '../hooks/useAuth';
 
 export const Register = () => {
   const navigate = useNavigate();
-  const { register } = useAuth(); // Usamos la función de registro del hook
+  const { register } = useAuth();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -22,6 +21,11 @@ export const Register = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  
+  // Estados para la verificación por código
+  const [showOtpStep, setShowOtpStep] = useState(false);
+  const [generatedOtp, setGeneratedOtp] = useState('');
+  const [userOtp, setUserOtp] = useState('');
 
   const inputClass =
     "w-full px-4 py-4 rounded-2xl bg-gray-100/50 dark:bg-white/5 border border-gray-200 dark:border-white/5 focus:border-indigo-500/50 focus:bg-white dark:focus:bg-[#242426] text-sm font-bold text-gray-900 dark:text-white placeholder:text-gray-400 outline-none transition-all duration-200";
@@ -30,7 +34,8 @@ export const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
+  // Paso 1: Validar datos y generar código
+  const handleInitialSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
 
@@ -44,25 +49,41 @@ export const Register = () => {
       return;
     }
 
+    // Generamos un código de 6 dígitos
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(code);
+    
+    // Simulación de envío de correo
+    console.log("CÓDIGO DE VERIFICACIÓN:", code);
+    alert(`Código enviado a ${formData.email}: ${code}`); 
+    
+    setShowOtpStep(true);
+  };
+
+  // Paso 2: Verificar código y crear cuenta en Firebase
+  const handleVerifyAndRegister = async () => {
+    if (userOtp !== generatedOtp) {
+      alert("El código ingresado es incorrecto");
+      return;
+    }
+
     try {
       setLoading(true);
 
-      // Usamos el hook que ya tiene el manejo de errores traducidos
+      // Registro real en Firebase
       await register(formData.email.trim(), formData.password);
       
-      // Actualizamos el nombre en el perfil recién creado
       if (auth.currentUser) {
         await updateProfile(auth.currentUser, {
           displayName: formData.name
         });
       }
 
-      alert("¡Cuenta creada con éxito! Ahora inicia sesión.");
-      navigate('/login'); // Redirigimos al Login como pediste
+      alert("¡Cuenta verificada y creada con éxito!");
+      navigate('/login');
 
     } catch (error: any) {
-      // El alert ya lo dispara el hook useAuth, así que aquí solo detenemos el proceso
-      console.log("Error en registro controlado");
+      console.log("Error en registro:", error);
     } finally {
       setLoading(false);
     }
@@ -99,75 +120,121 @@ export const Register = () => {
         </div>
 
         <div className="rounded-2xl bg-white/70 dark:bg-[#1c1c1e]/70 backdrop-blur-xl shadow-sm p-8 sm:p-10 border border-gray-200 dark:border-white/5 transition-all">
-          <form onSubmit={handleRegister} className="space-y-5">
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 flex items-center gap-2">
-                <User size={12} className="text-indigo-500" /> Nombre Completo
-              </label>
-              <input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Ej. Jymmy Fabian"
-                className={inputClass}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 flex items-center gap-2">
-                <Mail size={12} className="text-indigo-500" /> Correo Electrónico
-              </label>
-              <input
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="usuario@educash.com"
-                className={inputClass}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 flex items-center gap-2">
-                <Lock size={12} className="text-indigo-500" /> Seguridad
-              </label>
-              <div className="grid grid-cols-1 gap-3">
+          
+          {!showOtpStep ? (
+            /* FORMULARIO DE DATOS */
+            <form onSubmit={handleInitialSubmit} className="space-y-5">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 flex items-center gap-2">
+                  <User size={12} className="text-indigo-500" /> Nombre Completo
+                </label>
                 <input
-                  name="password"
-                  type="password"
-                  value={formData.password}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  placeholder="Nueva contraseña"
-                  className={inputClass}
-                  required
-                />
-                <input
-                  name="confirmPassword"
-                  type="password"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirmar contraseña"
+                  placeholder="Ej. Jymmy Fabian"
                   className={inputClass}
                   required
                 />
               </div>
-            </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 active:scale-[0.98] transition-all disabled:opacity-50 mt-4 group"
-            >
-              {loading ? 'Procesando...' : (
-                <>
-                  Crear Cuenta
-                  <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-1 transition-transform" />
-                </>
-              )}
-            </button>
-          </form>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 flex items-center gap-2">
+                  <Mail size={12} className="text-indigo-500" /> Correo Electrónico
+                </label>
+                <input
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="usuario@educash.com"
+                  className={inputClass}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 flex items-center gap-2">
+                  <Lock size={12} className="text-indigo-500" /> Seguridad
+                </label>
+                <div className="grid grid-cols-1 gap-3">
+                  <input
+                    name="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Nueva contraseña"
+                    className={inputClass}
+                    required
+                  />
+                  <input
+                    name="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirmar contraseña"
+                    className={inputClass}
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 active:scale-[0.98] transition-all disabled:opacity-50 mt-4 group"
+              >
+                {loading ? 'Procesando...' : (
+                  <>
+                    Registrar y enviar código
+                    <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
+              </button>
+            </form>
+          ) : (
+            /* FORMULARIO DE CÓDIGO (OTP) */
+            <div className="space-y-5 animate-in fade-in zoom-in duration-300">
+              <div className="text-center mb-2">
+                <h3 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest">Verifica tu cuenta</h3>
+                <p className="text-[10px] text-gray-500 mt-1 uppercase font-bold">Ingresa el código enviado a tu email</p>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 flex items-center gap-2">
+                  <Hash size={12} className="text-indigo-500" /> Código de 6 dígitos
+                </label>
+                <input
+                  type="text"
+                  maxLength={6}
+                  value={userOtp}
+                  onChange={(e) => setUserOtp(e.target.value.replace(/\D/g, ""))}
+                  placeholder="000000"
+                  className={`${inputClass} text-center text-xl tracking-[0.5em]`}
+                />
+              </div>
+
+              <button
+                onClick={handleVerifyAndRegister}
+                disabled={loading || userOtp.length < 6}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 active:scale-[0.98] transition-all disabled:opacity-50 mt-4 group"
+              >
+                {loading ? 'Verificando...' : (
+                  <>
+                    Completar Registro
+                    <ArrowRight size={16} strokeWidth={3} className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
+              </button>
+
+              <button 
+                onClick={() => setShowOtpStep(false)}
+                className="w-full text-[10px] text-gray-400 font-bold uppercase tracking-widest hover:text-indigo-500 transition-colors"
+              >
+                Corregir datos de registro
+              </button>
+            </div>
+          )}
 
           <div className="my-8 flex items-center gap-4 px-4 text-gray-300 dark:text-white/10">
             <div className="flex-1 h-[1px] bg-current" />
