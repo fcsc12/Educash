@@ -82,3 +82,5 @@ coverage/
 # Archivos pesados / ejecutables
 *.exe
 backend/src/config/
+backend/src/config/*
+!backend/src/config/firebase.ts
