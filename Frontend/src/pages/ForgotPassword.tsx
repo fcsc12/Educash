@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreditCard, Mail, Send, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { auth } from '../firebase/firebase';
 
 export const ForgotPassword = () => {
 

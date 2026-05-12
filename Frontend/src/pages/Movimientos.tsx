@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useFinance } from '../hooks/useFinance';
 import { MainLayout } from '../layouts/MainLayout';
-import { auth } from '../firebase/config';
+import { auth } from '../firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import {
   Trash2,
@@ -129,7 +129,7 @@ export const Movimientos = () => {
               filteredTransactions.map(t => (
                 <div
                   key={t.id}
-                  className="flex items-center justify-between px-5 py-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors group"
+                  className="flex items-center justify-between px-5 py-4 hover:bg-black/2 dark:hover:bg-white/2 transition-colors group"
                 >
                   <div className="flex items-center gap-4">
                     {/* circulo con color segun si es entrada o salida */}
@@ -207,7 +207,7 @@ export const Movimientos = () => {
 
       {/* modal flotante para editar la descripcion o monto */}
       {isEditModalOpen && editingTransaction && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
           <div className="w-full max-w-sm rounded-3xl bg-white/90 dark:bg-[#1c1c1e]/95 backdrop-blur-2xl p-6 shadow-2xl border border-white/20">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">Editar movimiento</h3>

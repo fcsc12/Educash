@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronDown, Tag, AlignLeft, X, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import type { Category, NewTransaction } from '../interfaces/types';
-import { auth } from '../firebase/config';
+import { auth } from '../firebase/firebase';
 
 interface Props {
   onClose: () => void;
@@ -89,7 +89,7 @@ export const AddTransactionModal = ({ onClose, onAdd }: Props) => {
   const inputStyle = "w-full p-4 rounded-xl bg-black/5 dark:bg-white/10 text-sm outline-none text-gray-900 dark:text-white border border-transparent focus:border-indigo-500/50 transition-all";
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
       <div className="w-full max-w-sm rounded-3xl bg-white/90 dark:bg-[#1c1c1e]/95 backdrop-blur-2xl p-6 shadow-2xl border border-white/20 animate-in zoom-in-95 duration-200">
         
         <div className="flex justify-between items-center mb-6">
@@ -150,7 +150,7 @@ export const AddTransactionModal = ({ onClose, onAdd }: Props) => {
           {/* el selector de categoria solo aparece si es un gasto (egreso) */}
           {type === 'expense' && (
             <div className="space-y-1">
-              <label className="text-[10px] uppercase tracking-widest text-gray-500 ml-2 mb-1 block font-bold flex items-center gap-1">
+              <label className="text-[10px] uppercase tracking-widest text-gray-500 ml-2 mb-1 block font-bold items-center gap-1">
                 <Tag size={12} className="text-indigo-500" /> categoria
               </label>
               <div className="relative">
@@ -172,7 +172,7 @@ export const AddTransactionModal = ({ onClose, onAdd }: Props) => {
 
           {/* espacio para que el usuario escriba una descripcion corta */}
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-gray-500 ml-2 mb-1 block font-bold flex items-center gap-1">
+            <label className="text-[10px] uppercase tracking-widest text-gray-500 ml-2 mb-1 block font-bold items-center gap-1">
               <AlignLeft size={12} className="text-indigo-500" /> concepto
             </label>
             <input
