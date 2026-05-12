@@ -89,7 +89,7 @@ export const TransactionList = ({ transactions }: Props) => {
 
       {/* se muestra solo cuando no hay datos en el array */}
       {transactions.length === 0 && (
-        <div className="py-20 text-center rounded-3xl border-2 border-dashed border-gray-100 dark:border-white/5 bg-black/[0.01] dark:bg-white/[0.01]">
+        <div className="py-20 text-center rounded-3xl border-2 border-dashed border-gray-100 dark:border-white/5 bg-black/1 dark:bg-white/1">
           <div className="w-16 h-16 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4">
             <Inbox className="text-gray-300 dark:text-white/10" size={32} />
           </div>

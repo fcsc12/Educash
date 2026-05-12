@@ -132,9 +132,9 @@ export const Login = () => {
 
           {/* separador para la opcion de google */}
           <div className="my-8 flex items-center gap-4 px-4 text-gray-300 dark:text-white/10">
-            <div className="flex-1 h-[1px] bg-current" />
+            <div className="flex-1 h-px bg-current" />
             <span className="text-[10px] font-black uppercase tracking-widest">o continua con</span>
-            <div className="flex-1 h-[1px] bg-current" />
+            <div className="flex-1 h-px bg-current" />
           </div>
 
           {/* boton de google */}

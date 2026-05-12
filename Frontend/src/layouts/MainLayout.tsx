@@ -92,7 +92,7 @@ export const MainLayout = ({ children }: Props) => {
   return (
     <div className="min-h-screen bg-[#f5f5f7] dark:bg-[#0b0b0c] text-gray-900 dark:text-white font-[Inter]">
 
-      <Disclosure as="nav" className={`${card} sticky top-0 z-[60] shadow-sm`}>
+      <Disclosure as="nav" className={`${card} sticky top-0 z-60 shadow-sm`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           
           {/* Logo con animación al pasar el mouse */}
@@ -138,7 +138,7 @@ export const MainLayout = ({ children }: Props) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <MenuItems className="bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-white/10 absolute right-0 mt-2 w-52 rounded-2xl p-2 shadow-2xl backdrop-blur-xl z-[70]">
+              <MenuItems className="bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-white/10 absolute right-0 mt-2 w-52 rounded-2xl p-2 shadow-2xl backdrop-blur-xl z-70">
                 {/* Cabecera del menú con info del usuario */}
                 <div className="px-3 py-3 border-b border-gray-100 dark:border-white/5 mb-1">
                   <p className="text-[10px] uppercase font-black tracking-widest text-indigo-500">cuenta</p>
@@ -182,8 +182,8 @@ export const MainLayout = ({ children }: Props) => {
       </main>
 
       {/* BARRA DE NAVEGACIÓN MÓVIL (Estilo isla flotante) */}
-      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[320px] z-[60]">
-        <div className="bg-white/80 dark:bg-[#1c1c1e]/80 border border-white/20 h-16 rounded-[1rem] flex items-center justify-around shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-xl px-4">
+      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[320px] z-60">
+        <div className="bg-white/80 dark:bg-[#1c1c1e]/80 border border-white/20 h-16 rounded-1rem flex items-center justify-around shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-xl px-4">
           {navigation.map((item) => {
             const isActive = location.pathname === item.href;
             return (
