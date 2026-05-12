@@ -33,9 +33,9 @@ export const Login = () => {
       // si todo sale bien, lo mandamos al inicio
       navigate('/');
     } catch (error: any) {
-      
-      // si hay error (clave mal, etc), avisamos con un alert
-      alert('error: ' + (error?.message || 'credenciales invalidas'));
+      // Como tu hook ya maneja el 'alert' amigable internamente, aquí capturamos el mensaje 
+      // por si necesitas usarlo localmente o imprimirlo limpiamente en consola.
+      console.log('Intento de inicio de sesión fallido.');
     } finally {
       setLoading(false);
     }
@@ -49,7 +49,7 @@ export const Login = () => {
       await loginWithGoogle();
       navigate('/');
     } catch (error: any) {
-      alert('error con google: ' + (error?.message || ''));
+      alert('Error con Google: No se pudo completar la autenticación.');
     } finally {
       setLoading(false);
     }
@@ -132,9 +132,9 @@ export const Login = () => {
 
           {/* separador para la opcion de google */}
           <div className="my-8 flex items-center gap-4 px-4 text-gray-300 dark:text-white/10">
-            <div className="flex-1 h-px bg-current" />
+            <div className="flex-1 h-[1px] bg-current" />
             <span className="text-[10px] font-black uppercase tracking-widest">o continua con</span>
-            <div className="flex-1 h-px bg-current" />
+            <div className="flex-1 h-[1px] bg-current" />
           </div>
 
           {/* boton de google */}

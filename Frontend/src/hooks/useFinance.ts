@@ -10,7 +10,7 @@ import {
   doc, 
   orderBy 
 } from 'firebase/firestore';
-import { db } from '../firebase/firebase';
+import { db } from '../firebase/config';
 
 export const useFinance = (userId: string) => {
 

@@ -193,7 +193,7 @@ export const Analisis = () => {
                   <div className="bg-white/20 p-2 rounded-xl">
                     <Zap size={20} className="fill-white" />
                   </div>
-                  <div className="bg-white/15 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-0.1em">
+                  <div className="bg-white/15 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.1em]">
                     Score
                   </div>
                 </div>

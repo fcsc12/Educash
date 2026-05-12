@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { MainLayout } from '../layouts/MainLayout';
-import { db } from '../firebase/firebase';
+import { db } from '../firebase/config';
 import {
   collection, addDoc, query, where, onSnapshot,
   updateDoc, deleteDoc, doc, serverTimestamp
@@ -140,7 +140,7 @@ export const Metas = () => {
             // calculamos el porcentaje para la barra de progreso
             const progress = Math.min(((goal.current || 0) / (goal.target || 1)) * 100, 100);
             return (
-              <div key={goal.id} className={`${card} group relative transition-all hover:-translate-y-0.5`}>
+              <div key={goal.id} className={`${card} group relative transition-all hover:translate-y-[-2px]`}>
                 <button
                   onClick={() => handleDeleteGoal(goal.id)}
                   className="absolute right-4 top-4 text-gray-400 hover:text-rose-500 transition-colors p-1"
@@ -199,7 +199,7 @@ export const Metas = () => {
 
       {/* modal tipo ios para crear la meta */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-md p-4">
           <div className="w-full max-w-sm rounded-3xl bg-white/90 dark:bg-[#1c1c1e]/95 backdrop-blur-2xl p-6 shadow-2xl border border-white/20">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white">Nueva Meta</h3>

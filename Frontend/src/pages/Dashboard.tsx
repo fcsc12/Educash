@@ -121,8 +121,8 @@ export const Dashboard = () => {
             {/* tarjeta de salud: cambia a rojo si estas gastando mucho */}
             <div className={`rounded-xl p-7 text-white relative overflow-hidden shadow-lg transition-all
               ${isCritical 
-                ? 'bg-linear-to-br from-rose-500 to-rose-600' 
-                : 'bg-linear-to-br from-indigo-600 to-violet-700'
+                ? 'bg-gradient-to-br from-rose-500 to-rose-600' 
+                : 'bg-gradient-to-br from-indigo-600 to-violet-700'
               }`}>
               
               <div className="relative z-10">
@@ -170,7 +170,7 @@ export const Dashboard = () => {
                 {latestTransactions.map(t => (
                   <div
                     key={t.id}
-                    className="flex items-center justify-between px-5 py-4 hover:bg-black/2 dark:hover:bg-white/2 transition-colors"
+                    className="flex items-center justify-between px-5 py-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
                   >
                     <div className="flex items-center gap-4">
 

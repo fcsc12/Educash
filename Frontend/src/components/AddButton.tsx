@@ -14,12 +14,12 @@ export const AddButton = ({ onClick }: AddButtonProps) => {
       aria-label="agregar movimiento"
 
       // posicion fija, animaciones de escala y transiciones suaves
-      className="fixed bottom-28 right-6 z-60 active:scale-90 hover:scale-105 transition-all duration-300 group"
+      className="fixed bottom-28 right-6 z-[60] active:scale-90 hover:scale-105 transition-all duration-300 group"
       type="button"
     >
       <div className="relative">
-        <div className="absolute inset-0 bg-black/10 dark:bg-white/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="relative w-16 h-16 bg-[#1c1c1e] dark:bg-white text-white dark:text-black rounded-3xl flex items-center justify-center shadow-2xl border border-white/10 dark:border-transparent">
+        <div className="absolute inset-0 bg-black/10 dark:bg-white/10 rounded-[1.5rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="relative w-16 h-16 bg-[#1c1c1e] dark:bg-white text-white dark:text-black rounded-[1.5rem] flex items-center justify-center shadow-2xl border border-white/10 dark:border-transparent">
           <Plus 
             size={28} 
             strokeWidth={3} 
