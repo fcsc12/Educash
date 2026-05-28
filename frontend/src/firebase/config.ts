@@ -20,6 +20,6 @@ export const db = getFirestore(app);
 
 // esto es para que el emuilador de firebase se pueda todo local, lo saque de la docuemntacion de firebase
 if (window.location.hostname === 'localhost') {
-  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+ // connectAuthEmulator(auth, "http://127.0.0.1:9099");
   connectFirestoreEmulator(db, "127.0.0.1", 8080);
 }
