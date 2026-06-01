@@ -33,9 +33,9 @@ export const Login = () => {
       // si todo sale bien, lo mandamos al inicio
       navigate('/');
     } catch (error: any) {
-      // Como tu hook ya maneja el 'alert' amigable internamente, aquí capturamos el mensaje 
-      // por si necesitas usarlo localmente o imprimirlo limpiamente en consola.
-      console.log('Intento de inicio de sesión fallido.');
+      
+      // si hay error (clave mal, etc), avisamos con un alert
+      alert('error: ' + (error?.message || 'credenciales invalidas'));
     } finally {
       setLoading(false);
     }
@@ -49,7 +49,7 @@ export const Login = () => {
       await loginWithGoogle();
       navigate('/');
     } catch (error: any) {
-      alert('Error con Google: No se pudo completar la autenticación.');
+      alert('error con google: ' + (error?.message || ''));
     } finally {
       setLoading(false);
     }
