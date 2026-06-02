@@ -15,14 +15,12 @@ const categories: Category[] = [
 
 export const AddTransactionModal = ({ onClose, onAdd }: Props) => {
 
-  // manejamos los datos del formulario con estados para reaccionar a lo que escribes
   const [amount, setAmount] = useState('');
   const [type, setType] = useState<'income' | 'expense'>('expense');
   const [category, setCategory] = useState<Category>('Comida');
   const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // este efecto sirve para que el modal se sienta como una parte natural del sistema
   useEffect(() => {
 
     // evitamos que el usuario pueda hacer scroll en el fondo mientras el modal esta activo
@@ -40,7 +38,6 @@ export const AddTransactionModal = ({ onClose, onAdd }: Props) => {
     };
   }, [onClose]);
 
-  // funcion para que los numeros tengan puntos de miles mientras vas digitando
   const formatNumber = (value: string) => {
     const rawValue = value.replace(/\D/g, ''); // limpia cualquier caracter que no sea un numero
     return rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // inserta los puntos segun la posicion

@@ -117,13 +117,13 @@ export const ProfileView = () => {
     <MainLayout title="Perfil">
       <div className="max-w-6xl mx-auto pb-24 space-y-6 -mt-2">
         
-        {/* seccion de encabezado */}
+        
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Mi Perfil</h1>
           <p className="text-xs text-gray-500 dark:text-gray-400">Personaliza tu identidad en EduCash</p>
         </div>
 
-        {/* card principal con la foto y el correo */}
+        
         <div className={card}>
           <div className="flex flex-col sm:flex-row items-center gap-8">
             <div className="relative group" onClick={handlePhotoClick}>
@@ -134,7 +134,7 @@ export const ProfileView = () => {
                 />
               </div>
 
-              {/* overlay que sale al pasar el mouse por la foto */}
+              
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all rounded-3xl cursor-pointer backdrop-blur-[2px]">
                 <Camera className="text-white w-6 h-6" />
               </div>
@@ -161,10 +161,10 @@ export const ProfileView = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-          {/* formularios de configuracion */}
+          
           <div className="lg:col-span-8 space-y-6">
             
-            {/* campos para el nombre y correo (el correo es de solo lectura) */}
+            
             <div className={card}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-500">
@@ -196,7 +196,7 @@ export const ProfileView = () => {
               </div>
             </div>
 
-            {/* seccion para cambiar la contraseña */}
+            
             <div className={card}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 rounded-xl bg-orange-500/10 text-orange-500">
@@ -231,7 +231,7 @@ export const ProfileView = () => {
                 </div>
               </div>
 
-              {/* boton de guardado con estado de carga */}
+              
               <div className="mt-8 flex justify-end">
                 <button
                   onClick={handleSaveChanges}
@@ -245,7 +245,7 @@ export const ProfileView = () => {
             </div>
           </div>
 
-          {/* sidebar con informacion del proyecto educash */}
+          
           <div className="lg:col-span-4 space-y-6">
             <div className={card}>
               <div className="flex items-center gap-3 mb-4">
