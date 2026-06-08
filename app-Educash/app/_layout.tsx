@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import { FinanceProvider } from '../context/FinanceContext';
+import { SupervivenciaProvider } from '../context/SupervivenciaContext'; // 🔥 
 
 function RootNavigation() {
   const { user, loading } = useAuth();
@@ -54,7 +55,9 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <FinanceProvider>
-        <RootNavigation />
+        <SupervivenciaProvider> 
+          <RootNavigation />
+        </SupervivenciaProvider>
       </FinanceProvider>
     </AuthProvider>
   );

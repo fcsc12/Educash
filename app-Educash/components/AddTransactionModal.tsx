@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { useFinance, Category } from '@/context/FinanceContext';
+import { useSupervivencia } from '@/hooks/useSupervivencia'; 
 import { Colors } from '@/constants/theme';
 import { globalStyles } from '@/styles/globalStyles';
 
@@ -17,7 +18,7 @@ interface Props { visible: boolean; onClose: () => void; }
 
 export default function AddTransactionModal({ visible, onClose }: Props) {
   const { addTransaction } = useFinance();
-  const [type, setType]             = useState<'income' | 'expense'>('expense');
+  const [type, setType]               = useState<'income' | 'expense'>('expense');
   const [amount, setAmount]         = useState('');
   const [category, setCategory]     = useState<Category>('Comida');
   const [description, setDescription] = useState('');
@@ -28,13 +29,19 @@ export default function AddTransactionModal({ visible, onClose }: Props) {
   const handleAdd = async () => {
     const num = Number(amount.replace(/\./g, ''));
     if (!num || num <= 0) return;
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+
+    if (Platform.OS !== 'web') {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    }
+
+    
     await addTransaction({
       amount: num, type,
       category: type === 'income' ? 'Otros' : category,
       description: description.trim() || (type === 'income' ? 'Ingreso' : 'Gasto'),
       date: new Date().toISOString().split('T')[0],
     });
+    
     setAmount(''); setDescription(''); setCategory('Comida'); setType('expense');
     onClose();
   };
@@ -55,9 +62,9 @@ export default function AddTransactionModal({ visible, onClose }: Props) {
             </TouchableOpacity>
           </View>
 
-          {/* Toggle tipo */}
+          
           <View style={s.toggle}>
-            {(['expense', 'income'] as const).map(t => (
+            { (['expense', 'income'] as const).map(t => (
               <TouchableOpacity
                 key={t}
                 style={[s.toggleBtn, type === t && {
@@ -65,7 +72,10 @@ export default function AddTransactionModal({ visible, onClose }: Props) {
                   borderWidth: 1,
                   borderColor: t === 'income' ? Colors.income : Colors.expense,
                 }]}
-                onPress={() => { Haptics.selectionAsync(); setType(t); }}
+                onPress={() => { 
+                  if (Platform.OS !== 'web') Haptics.selectionAsync().catch(() => {}); 
+                  setType(t); 
+                }}
               >
                 <Text style={[s.toggleText, type === t && {
                   color: t === 'income' ? Colors.income : Colors.expense
@@ -94,7 +104,10 @@ export default function AddTransactionModal({ visible, onClose }: Props) {
               <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 20 }}>
                 {CATS.map(c => (
                   <TouchableOpacity key={c}
-                    onPress={() => { Haptics.selectionAsync(); setCategory(c); }}
+                    onPress={() => { 
+                      if (Platform.OS !== 'web') Haptics.selectionAsync().catch(() => {}); 
+                      setCategory(c); 
+                    }}
                     style={[s.chip, category === c && s.chipActive]}>
                     <Text style={[s.chipText, category === c && { color: Colors.primary }]}>{c}</Text>
                   </TouchableOpacity>
@@ -125,7 +138,7 @@ export default function AddTransactionModal({ visible, onClose }: Props) {
 }
 
 const s = StyleSheet.create({
-  overlay:    { flex: 1, backgroundColor: 'rgba(0,0,0,0.75)', justifyContent: 'flex-end' },
+  overlay:     { flex: 1, backgroundColor: 'rgba(0,0,0,0.75)', justifyContent: 'flex-end' },
   sheet:      { backgroundColor: Colors.card, borderTopLeftRadius: 32, borderTopRightRadius: 32, padding: 24, paddingBottom: Platform.OS === 'ios' ? 44 : 32, borderWidth: 1, borderColor: Colors.border },
   handle:     { width: 40, height: 4, backgroundColor: Colors.lightGray, borderRadius: 99, alignSelf: 'center', marginBottom: 20 },
   headerRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 },
